@@ -1,0 +1,12 @@
+# Database Layer
+
+This directory contains database schemas, migrations, and seeds.
+
+## Structure
+
+```
+database/
+├── migrations/     # Schema changes
+├── seeds/          # Test/development data
+└── schema.sql      # Current schema snapshot
+```

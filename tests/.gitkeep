@@ -1,0 +1,13 @@
+# Test Suite
+
+This directory contains all tests for the application.
+
+## Structure
+
+```
+tests/
+├── unit/           # Unit tests
+├── integration/    # Integration tests
+├── e2e/            # End-to-end tests
+└── fixtures/       # Test data
+```

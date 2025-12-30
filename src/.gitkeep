@@ -1,0 +1,15 @@
+# Application Source Code
+
+This directory contains the application source code.
+The Agentic Layer wraps around this layer to provide AI-assisted development.
+
+## Structure (Example)
+
+```
+src/
+├── index.ts        # Entry point
+├── routes/         # API routes
+├── services/       # Business logic
+├── utils/          # Utilities
+└── types/          # TypeScript types
+```
