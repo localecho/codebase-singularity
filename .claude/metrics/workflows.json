@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "totals": {
+    "feature": {"started": 0, "completed": 0, "success_rate": 0},
+    "bugfix": {"started": 0, "completed": 0, "success_rate": 0},
+    "refactor": {"started": 0, "completed": 0, "success_rate": 0},
+    "security": {"started": 0, "completed": 0, "success_rate": 0},
+    "release": {"started": 0, "completed": 0, "success_rate": 0}
+  },
+  "this_week": {
+    "start_date": null,
+    "sessions": 0,
+    "workflows_completed": 0,
+    "avg_duration_minutes": 0,
+    "fix_iterations_avg": 0
+  }
+}
