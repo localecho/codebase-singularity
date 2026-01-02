@@ -127,23 +127,41 @@ The Orchestrator Agent can run complete Plan → Build → Review → Fix cycles
 
 ## Quick Start
 
-### 1. Initialize Memory
+### 1. First-Time Setup
 
-The agent reads `CLAUDE.md` at session start:
 ```bash
-# Just start a Claude Code session in this directory
-cd codebase-singularity
+# Clone or copy the framework to your project
+cd your-project
+
+# Start Claude Code
 claude
+
+# Initialize the framework
+/init
 ```
 
-### 2. Prime the Session
+The `/init` command will:
+- Create all necessary directories
+- Generate a CLAUDE.md template
+- Set up initial state
+- Show you what's available
+
+### 2. Configure Your Project
+
+Edit `CLAUDE.md` to describe your project:
+- Add your tech stack
+- Describe architecture
+- List development commands
+- Set coding conventions
+
+### 3. Prime the Session
 
 Activate with specific context:
 ```
 /prime plan feature-auth
 ```
 
-### 3. Run Autonomous Workflow
+### 4. Run Autonomous Workflow
 
 Let the Orchestrator handle a complete feature:
 ```
@@ -259,12 +277,20 @@ The agent becomes a **first-class citizen** of your development workflow, not ju
 
 ---
 
+## Understanding the Components
+
+New to the framework? Read [docs/CONCEPTS.md](docs/CONCEPTS.md) for a detailed explanation of:
+- What CLAUDE.md is and how to use it
+- The difference between commands, skills, and workflows
+- How closed-loop operations work
+- The grade system
+
 ## Contributing
 
-1. Fork this framework
-2. Add your own skills to `skills/`
-3. Customize prompts for your workflow
-4. Share what works!
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Adding new commands
+- Creating skills
+- Submitting pull requests
 
 ---
 
