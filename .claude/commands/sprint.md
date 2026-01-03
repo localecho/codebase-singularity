@@ -1,33 +1,28 @@
 ---
-name: sprint
 description: Process multiple GitHub issues in sequence
-arguments:
-  - name: issues
-    description: Issue numbers (e.g., "64-70" or "1,3,7")
-    required: true
-  - name: repo
-    description: Repository in owner/repo format
-    required: false
+argument-hint: [issues] [repo]
 ---
 
-Process GitHub issues **$issues** from repo **$repo**.
+# Sprint Mode: Process Issues $ARGUMENTS
 
-## Workflow
+Process the following GitHub issues in sequence.
 
-For each issue in the range:
+## Instructions
 
-1. **Fetch** - `gh issue view {number} --repo $repo --json number,title,body,state`
-2. **Branch** - Create `issue-{number}-{slug}` branch
-3. **Implement** - Build the fix/feature based on issue requirements
-4. **Test** - Run tests if they exist
-5. **PR** - Create pull request that closes the issue
+1. **Parse the issue list** - Handle ranges (1-5) and comma-separated (1,3,7) formats
+2. **For each issue:**
+   - Fetch issue details from GitHub using `gh issue view`
+   - Create a feature branch named `issue-{number}-{slug}`
+   - Implement the fix/feature based on issue requirements
+   - Run tests if they exist
+   - Commit changes with message referencing the issue
+   - Create a PR that closes the issue
+   - Move to next issue
 
-## Execution
+3. **Use TodoWrite** to track progress through each issue
 
-- Use TodoWrite to track each issue
-- Process in parallel when issues don't conflict
-- Generate sprint report on completion
+4. **Run issues in parallel** when they don't conflict (different files/features)
 
-## Begin
+## Begin Processing
 
-Start by fetching all issues, then process each one.
+Start by fetching all issue details, then create a todo list and begin implementation.
