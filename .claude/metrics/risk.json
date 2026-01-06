@@ -1,0 +1,127 @@
+{
+  "version": "1.0",
+  "timestamp": null,
+  "overall_score": 0,
+  "level": "low",
+  "categories": {
+    "code_quality": {
+      "score": 0,
+      "level": "low",
+      "weight": 0.25,
+      "factors": {
+        "coverage": {
+          "value": 0,
+          "target": 80,
+          "weight": 0.4,
+          "status": "unknown"
+        },
+        "tech_debt_items": {
+          "value": 0,
+          "threshold": 20,
+          "weight": 0.3,
+          "status": "unknown"
+        },
+        "review_score": {
+          "value": 0,
+          "target": 4.0,
+          "weight": 0.3,
+          "status": "unknown"
+        }
+      }
+    },
+    "security": {
+      "score": 0,
+      "level": "low",
+      "weight": 0.30,
+      "factors": {
+        "critical_vulnerabilities": {
+          "value": 0,
+          "threshold": 0,
+          "weight": 0.4,
+          "status": "unknown"
+        },
+        "high_vulnerabilities": {
+          "value": 0,
+          "threshold": 3,
+          "weight": 0.25,
+          "status": "unknown"
+        },
+        "secret_exposure_attempts": {
+          "value": 0,
+          "threshold": 0,
+          "weight": 0.2,
+          "status": "unknown"
+        },
+        "outdated_dependencies": {
+          "value": 0,
+          "threshold": 10,
+          "weight": 0.15,
+          "status": "unknown"
+        }
+      }
+    },
+    "operational": {
+      "score": 0,
+      "level": "low",
+      "weight": 0.25,
+      "factors": {
+        "agent_failure_rate_percent": {
+          "value": 0,
+          "threshold": 10,
+          "weight": 0.4,
+          "status": "unknown"
+        },
+        "fix_loop_count": {
+          "value": 0,
+          "threshold": 5,
+          "weight": 0.35,
+          "status": "unknown"
+        },
+        "manual_interventions": {
+          "value": 0,
+          "threshold": 10,
+          "weight": 0.25,
+          "status": "unknown"
+        }
+      }
+    },
+    "business": {
+      "score": 0,
+      "level": "low",
+      "weight": 0.20,
+      "factors": {
+        "missed_deadlines": {
+          "value": 0,
+          "threshold": 1,
+          "weight": 0.4,
+          "status": "unknown"
+        },
+        "scope_creep_percent": {
+          "value": 0,
+          "threshold": 10,
+          "weight": 0.35,
+          "status": "unknown"
+        },
+        "deployment_failure_rate": {
+          "value": 0,
+          "threshold": 5,
+          "weight": 0.25,
+          "status": "unknown"
+        }
+      }
+    }
+  },
+  "thresholds": {
+    "low": {"min": 0, "max": 25, "color": "green", "action": "Monitor"},
+    "medium": {"min": 26, "max": 50, "color": "yellow", "action": "Review"},
+    "high": {"min": 51, "max": 75, "color": "orange", "action": "Address"},
+    "critical": {"min": 76, "max": 100, "color": "red", "action": "Immediate"}
+  },
+  "recommendations": [],
+  "history": [],
+  "alerts": {
+    "enabled": true,
+    "notify_on_level": "high",
+    "channels": []
+  }
+}

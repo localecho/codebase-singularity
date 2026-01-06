@@ -1,0 +1,79 @@
+# Team Configuration
+# This file is committed to the repo and shared across all team members
+# Personal overrides go in ~/.claude/config.yaml
+
+version: "1.0"
+
+team:
+  name: "Development Team"
+  # Optional: team lead email for escalations
+  lead: ""
+  # Optional: team members for @mentions
+  members: []
+
+# Code review standards
+standards:
+  code_review:
+    required: true
+    min_approvals: 1
+    focus_on:
+      - security
+      - types
+      - error-handling
+    skip_checks: []
+    min_severity: "low"
+
+  testing:
+    min_coverage: 80
+    require_tests_for_features: true
+    require_tests_for_bugfixes: true
+
+  workflows:
+    require_spec: true
+    max_fix_iterations: 5
+    auto_merge: false
+
+# Security settings
+security:
+  # Scan CLAUDE.md for potential secrets before commit
+  prevent_secrets_in_claude_md: true
+
+  # Enable pre-commit hook
+  pre_commit_hook: true
+
+  # Patterns to flag as potential secrets
+  secret_patterns:
+    - "sk-[a-zA-Z0-9]{32,}"           # OpenAI API keys
+    - "sk_live_[a-zA-Z0-9]{24,}"      # Stripe keys
+    - "AKIA[0-9A-Z]{16}"              # AWS Access Key
+    - "ghp_[a-zA-Z0-9]{36}"           # GitHub PAT
+    - "password\\s*=\\s*['\"][^'\"]+['\"]"
+    - "api[_-]?key\\s*=\\s*['\"][^'\"]+['\"]"
+
+# CLAUDE.md template settings
+claude_md:
+  # Sections that cannot be modified by team members
+  locked_sections:
+    - "Project Identity"
+    - "Architecture"
+    - "Tech Stack"
+
+  # Sections team members can customize
+  customizable_sections:
+    - "Agent Directives"
+    - "Development Notes"
+    - "Personal Preferences"
+
+  # Sync behavior during /prime
+  sync_behavior: "prompt"  # "auto", "prompt", "manual"
+
+# Notification settings (optional)
+notifications:
+  # Slack webhook for team notifications
+  slack_webhook: ""
+
+  # Events to notify on
+  notify_on:
+    - spec_created
+    - workflow_completed
+    - review_failed
