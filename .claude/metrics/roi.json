@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "period": "current",
+  "configuration": {
+    "developer_hourly_rate": 150,
+    "currency": "USD",
+    "work_hours_per_day": 8
+  },
+  "time_savings": {
+    "estimated_manual_hours": 0,
+    "actual_agent_hours": 0,
+    "hours_saved": 0,
+    "efficiency_multiplier": 1.0
+  },
+  "cost_analysis": {
+    "developer_hourly_rate": 150,
+    "agent_api_costs": 0,
+    "infrastructure_costs": 0,
+    "total_agent_costs": 0,
+    "manual_equivalent_cost": 0,
+    "net_savings": 0,
+    "roi_percentage": 0
+  },
+  "by_workflow": {
+    "feature": {
+      "count": 0,
+      "avg_manual_hours": 8,
+      "avg_agent_hours": 3,
+      "total_hours_saved": 0,
+      "cost_saved": 0
+    },
+    "bugfix": {
+      "count": 0,
+      "avg_manual_hours": 4,
+      "avg_agent_hours": 0.75,
+      "total_hours_saved": 0,
+      "cost_saved": 0
+    },
+    "refactor": {
+      "count": 0,
+      "avg_manual_hours": 6,
+      "avg_agent_hours": 2,
+      "total_hours_saved": 0,
+      "cost_saved": 0
+    },
+    "security": {
+      "count": 0,
+      "avg_manual_hours": 3,
+      "avg_agent_hours": 1,
+      "total_hours_saved": 0,
+      "cost_saved": 0
+    },
+    "release": {
+      "count": 0,
+      "avg_manual_hours": 2,
+      "avg_agent_hours": 0.5,
+      "total_hours_saved": 0,
+      "cost_saved": 0
+    }
+  },
+  "productivity_comparison": {
+    "features_per_month": {
+      "before": 4,
+      "after": 0,
+      "improvement_factor": 0
+    },
+    "avg_bug_fix_hours": {
+      "before": 4,
+      "after": 0,
+      "improvement_factor": 0
+    },
+    "avg_review_minutes": {
+      "before": 30,
+      "after": 0,
+      "improvement_factor": 0
+    },
+    "time_to_first_test_hours": {
+      "before": 48,
+      "after": 0,
+      "improvement_factor": 0
+    }
+  },
+  "trends": {
+    "monthly": [],
+    "weekly": []
+  },
+  "projections": {
+    "annual_savings_estimate": 0,
+    "break_even_date": null,
+    "payback_period_days": null
+  }
+}

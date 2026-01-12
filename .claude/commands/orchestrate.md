@@ -8,6 +8,12 @@ arguments:
   - name: mode
     description: "Mode: full (plan-build-review-fix), quick (build-fix), review-only"
     required: false
+  - name: scope
+    description: "Analysis scope: full, changed, directory:path, files:pattern"
+    required: false
+  - name: timeout
+    description: "Timeout in seconds (default: 300)"
+    required: false
 ---
 
 # Orchestrator Agent - Class 3 Autonomous Workflows
@@ -22,6 +28,8 @@ Workflows without human intervention between steps.
 ```
 
 Mode: {{mode}} (defaults to "full")
+Scope: {{scope}} (defaults to "full")
+Timeout: {{timeout}} (defaults to 300 seconds)
 
 ---
 
@@ -31,12 +39,13 @@ Mode: {{mode}} (defaults to "full")
 
 ```
 ORCHESTRATOR INITIALIZATION
-═══════════════════════════════════════════════════════════════
+===============================================================
 Task: {{task}}
 Mode: {{mode}}
+Scope: {{scope}}
 Timestamp: [current time]
 Session ID: [generate unique ID]
-═══════════════════════════════════════════════════════════════
+===============================================================
 ```
 
 1. **Load Memory**: Read CLAUDE.md for project context
@@ -46,21 +55,83 @@ Session ID: [generate unique ID]
 
 ---
 
+## Large Codebase Configuration
+
+For large codebases (>1000 files), use these options to prevent hangs:
+
+### Analysis Scope
+
+Use the `scope` argument to limit analysis:
+
+| Scope | Description | Use When |
+|-------|-------------|----------|
+| `full` | Analyze entire codebase | Small projects (<500 files) |
+| `changed` | Only files changed since last commit | Iterative development |
+| `directory:path` | Only analyze specific directory | Feature work |
+| `files:pattern` | Glob pattern (e.g., `src/**/*.ts`) | Targeted analysis |
+
+Example: `/orchestrator "Add auth" --scope=directory:src/auth`
+
+### Timeout Configuration
+
+```yaml
+ORCHESTRATOR_TIMEOUT: 300  # seconds (default: 300)
+PHASE_TIMEOUT: 120         # per-phase timeout
+```
+
+If a phase exceeds timeout:
+```
+ORCHESTRATOR TIMEOUT
+
+Phase [PLAN/BUILD/REVIEW] exceeded timeout.
+
+Suggestions:
+1. Use --scope to limit analysis area
+2. Break task into smaller subtasks
+3. Run /status to check system state
+
+Partial progress saved to: specs/CURRENT.md
+Resume with: /orchestrator "{{task}}" --resume
+```
+
+### Progress Indicators
+
+During long operations, display progress:
+
+```
+[PLAN] Analyzing codebase...
+  [========          ] 40%% (200/500 files)
+  Elapsed: 45s | ETA: 68s
+  Current: src/services/auth.ts
+```
+
+---
+
 ## The Four-Phase Autonomous Cycle
 
-### PHASE 1: PLAN 📋
+### PHASE 1: PLAN
 
 **Objective**: Create a complete specification before writing any code
+
+**Progress Display**:
+```
+[PLAN PHASE] [====                ] 20%%
+- [DONE] Analyzing task requirements
+- [ACTIVE] Searching codebase for context...
+- [PENDING] Identifying affected files
+- [PENDING] Designing implementation
+- [PENDING] Writing specification
+```
 
 **Actions**:
 ```
 [PLAN PHASE]
-├── Analyze task requirements
-├── Search codebase for relevant context
-├── Identify affected files and systems
-├── Design implementation approach
-├── Estimate complexity and risks
-└── Write specification to specs/YYYYMMDD-task.md
+- Analyze task requirements
+- Search codebase for relevant context
+- Identify affected files and systems
+- Design implementation approach
+- Estimate complexity and risks
+- Write specification to specs/YYYYMMDD-task.md
 ```
 
 **Validation Gate**:
@@ -74,19 +145,29 @@ Session ID: [generate unique ID]
 
 ---
 
-### PHASE 2: BUILD 🔨
+### PHASE 2: BUILD
 
 **Objective**: Implement the specification exactly as written
+
+**Progress Display**:
+```
+[BUILD PHASE] [============        ] 60%%
+- [DONE] Reading spec
+- [DONE] Creating feature branch
+- [ACTIVE] Implementing changes (4/7 files)...
+- [PENDING] Adding tests
+- [PENDING] Committing changes
+```
 
 **Actions**:
 ```
 [BUILD PHASE]
-├── Read the spec from Phase 1
-├── Create feature branch (if git repo)
-├── Implement changes file by file
-├── Add tests for new functionality
-├── Update documentation if needed
-└── Commit with descriptive message
+- Read the spec from Phase 1
+- Create feature branch (if git repo)
+- Implement changes file by file
+- Add tests for new functionality
+- Update documentation if needed
+- Commit with descriptive message
 ```
 
 **Validation Gate**:
@@ -100,47 +181,67 @@ Session ID: [generate unique ID]
 
 ---
 
-### PHASE 3: REVIEW 🔍
+### PHASE 3: REVIEW
 
 **Objective**: Self-review all changes for quality and correctness
+
+**Progress Display**:
+```
+[REVIEW PHASE] [================    ] 80%%
+- [DONE] Running code_review
+- [DONE] Security scan
+- [ACTIVE] Performance analysis...
+- [PENDING] Style validation
+- [PENDING] Generating report
+```
 
 **Actions**:
 ```
 [REVIEW PHASE]
-├── Run code_review command on changed files
-├── Check for security vulnerabilities
-├── Verify performance implications
-├── Ensure style consistency
-├── Validate against spec requirements
-└── Generate review report
+- Run code_review command on changed files
+- Check for security vulnerabilities
+- Verify performance implications
+- Ensure style consistency
+- Validate against spec requirements
+- Generate review report
 ```
 
 **Review Criteria**:
 | Category | Weight | Pass Threshold |
 |----------|--------|----------------|
-| Correctness | 40% | All tests pass |
-| Security | 25% | No vulnerabilities |
-| Performance | 15% | No regressions |
-| Style | 10% | Lint clean |
-| Documentation | 10% | Updated |
+| Correctness | 40%% | All tests pass |
+| Security | 25%% | No vulnerabilities |
+| Performance | 15%% | No regressions |
+| Style | 10%% | Lint clean |
+| Documentation | 10%% | Updated |
 
 **If review fails**: Document issues and proceed to Fix phase.
 
 ---
 
-### PHASE 4: FIX 🔧
+### PHASE 4: FIX
 
 **Objective**: Address all issues found in review phase
+
+**Progress Display**:
+```
+[FIX PHASE] [====================] 100%%
+- [DONE] Parsed 3 issues from review
+- [DONE] Fixed: Critical auth bug
+- [DONE] Fixed: Missing null check
+- [DONE] Fixed: Style violation
+- [DONE] All tests passing
+```
 
 **Actions**:
 ```
 [FIX PHASE]
-├── Parse review report for issues
-├── Prioritize by severity (Critical > High > Medium > Low)
-├── Fix each issue systematically
-├── Re-run relevant tests
-├── Update review report with resolutions
-└── Return to REVIEW phase for validation
+- Parse review report for issues
+- Prioritize by severity (Critical > High > Medium > Low)
+- Fix each issue systematically
+- Re-run relevant tests
+- Update review report with resolutions
+- Return to REVIEW phase for validation
 ```
 
 **Fix Loop Protocol**:
@@ -162,22 +263,22 @@ if issues_exist:
 ## Workflow State Machine
 
 ```
-                    ┌──────────────────────────────────────┐
-                    │                                      │
-                    ▼                                      │
-┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-│   PLAN   │───▶│  BUILD   │───▶│  REVIEW  │───▶│   FIX    │
-└──────────┘    └──────────┘    └──────────┘    └──────────┘
-     │               │               │               │
-     ▼               ▼               ▼               ▼
+                    +--------------------------------------+
+                    |                                      |
+                    v                                      |
++----------+    +----------+    +----------+    +----------+
+|   PLAN   |--->|  BUILD   |--->|  REVIEW  |--->|   FIX    |
++----------+    +----------+    +----------+    +----------+
+     |               |               |               |
+     v               v               v               v
  [Spec File]    [Code Files]   [Review Log]   [Resolution]
-     │               │               │               │
-     └───────────────┴───────────────┴───────────────┘
-                           │
-                           ▼
-                    ┌──────────┐
-                    │ COMPLETE │
-                    └──────────┘
+     |               |               |               |
+     +---------------+---------------+---------------+
+                           |
+                           v
+                    +----------+
+                    | COMPLETE |
+                    +----------+
 ```
 
 ---
@@ -185,16 +286,52 @@ if issues_exist:
 ## Execution Modes
 
 ### Mode: `full` (Default)
-Execute all four phases: PLAN → BUILD → REVIEW → FIX → DONE
+Execute all four phases: PLAN -> BUILD -> REVIEW -> FIX -> DONE
 
 ### Mode: `quick`
-Skip planning, assume spec exists: BUILD → REVIEW → FIX → DONE
+Skip planning, assume spec exists: BUILD -> REVIEW -> FIX -> DONE
 
 ### Mode: `review-only`
-Only review existing code: REVIEW → FIX → DONE
+Only review existing code: REVIEW -> FIX -> DONE
 
 ### Mode: `plan-only`
-Only create specification: PLAN → DONE (for human review before building)
+Only create specification: PLAN -> DONE (for human review before building)
+
+---
+
+## State File Management
+
+### Atomic State Writes
+
+To prevent corruption, all state files use atomic write operations:
+
+```
+STATE WRITE PROTOCOL
+1. Write to temporary file: specs/CURRENT.md.tmp
+2. Backup existing file: specs/CURRENT.md.bak
+3. Atomic rename: CURRENT.md.tmp -> CURRENT.md
+4. Verify write success
+5. Clean up temp file on success
+```
+
+### State Recovery
+
+If state file is corrupted, run:
+```
+/orchestrator --recover
+```
+
+Recovery process:
+1. Check for backup file (specs/CURRENT.md.bak)
+2. Validate backup integrity
+3. Restore from backup if valid
+4. If no backup, scan specs/ for most recent session
+5. Report recovery status
+
+### Backup Schedule
+- Before every state write: Create .bak file
+- After successful workflow: Archive to specs/archive/
+- Retention: Keep last 5 backups
 
 ---
 
@@ -222,15 +359,15 @@ If the workflow is interrupted:
 After each phase, output a status block:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ ORCHESTRATOR STATUS                                         │
-├─────────────────────────────────────────────────────────────┤
-│ Phase: [PLAN/BUILD/REVIEW/FIX]                              │
-│ Status: [IN_PROGRESS/COMPLETE/BLOCKED]                      │
-│ Progress: [X/Y tasks]                                       │
-│ Issues: [count]                                             │
-│ Next: [next action]                                         │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+| ORCHESTRATOR STATUS                                         |
++-------------------------------------------------------------+
+| Phase: [PLAN/BUILD/REVIEW/FIX]                              |
+| Status: [IN_PROGRESS/COMPLETE/BLOCKED]                      |
+| Progress: [X/Y tasks]                                       |
+| Issues: [count]                                             |
+| Next: [next action]                                         |
++-------------------------------------------------------------+
 ```
 
 ---
@@ -246,7 +383,7 @@ Escalate to human if:
 
 Escalation format:
 ```
-⚠️ ORCHESTRATOR ESCALATION REQUIRED
+ORCHESTRATOR ESCALATION REQUIRED
 
 Reason: [why human input needed]
 Context: [relevant details]
@@ -266,5 +403,6 @@ Starting autonomous workflow now...
 
 **Mode**: {{mode}}
 **Task**: {{task}}
+**Scope**: {{scope}}
 
 Phase 1: PLAN - Initializing...

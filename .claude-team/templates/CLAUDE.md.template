@@ -1,0 +1,56 @@
+# {{PROJECT_NAME}}
+
+## Project Identity
+<!-- LOCKED: Do not modify this section -->
+{{PROJECT_DESCRIPTION}}
+
+**Repository**: {{REPO_URL}}
+**Team**: {{TEAM_NAME}}
+**Last Updated**: {{LAST_UPDATED}}
+
+## Architecture
+<!-- LOCKED: Synced from template -->
+
+{{ARCHITECTURE_DIAGRAM}}
+
+## Tech Stack
+<!-- LOCKED: Auto-detected -->
+
+{{TECH_STACK}}
+
+## Agent Directives
+<!-- CUSTOMIZABLE: Add your own directives -->
+
+### Team Standards
+- Follow team coding conventions
+- Run tests before committing
+- Keep documentation up to date
+- Review code with security in mind
+
+### Personal Notes
+<!-- Add your development notes here -->
+
+
+## Development Environment
+<!-- CUSTOMIZABLE -->
+
+### Prerequisites
+{{PREREQUISITES}}
+
+### Setup Commands
+{{SETUP_COMMANDS}}
+
+## Security Reminders
+<!-- LOCKED -->
+
+**DO NOT add the following to this file:**
+- API keys or tokens
+- Passwords or credentials
+- Database connection strings with credentials
+- Private keys or certificates
+
+Use environment variables or a secrets manager instead.
+
+---
+*This file is managed by the Codebase Singularity framework.*
+*Locked sections are synced during /prime.*
