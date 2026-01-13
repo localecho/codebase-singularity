@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "current": {
+    "coverage": 0,
+    "tests": 0,
+    "bugs_open": 0,
+    "bugs_fixed": 0,
+    "debt_items": 0
+  },
+  "snapshots": [],
+  "trends": {
+    "coverage": {"direction": "stable", "delta": 0},
+    "tests": {"direction": "stable", "delta": 0},
+    "debt": {"direction": "stable", "delta": 0}
+  }
+}
