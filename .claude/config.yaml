@@ -1,0 +1,159 @@
+# Codebase Singularity Configuration
+# This file customizes framework behavior
+
+# Schema version
+version: "1.0"
+
+# ============================================================================
+# COMMAND OVERRIDES
+# ============================================================================
+# Customize built-in command behavior
+
+commands:
+  code_review:
+    # Skip certain check categories
+    skip_checks: []
+    # - security      # Skip security checks
+    # - performance   # Skip performance checks
+    # - style         # Skip style checks
+
+    # Focus on specific areas (overrides skip)
+    focus_on: []
+    # - types         # Focus on type safety
+    # - tests         # Focus on test coverage
+    # - docs          # Focus on documentation
+
+    # Severity threshold (ignore below this)
+    min_severity: "low"  # low, medium, high, critical
+
+  test_backend:
+    # Minimum coverage threshold
+    coverage_threshold: 80
+
+    # Test types to run
+    test_types:
+      - unit
+      - integration
+      # - e2e
+
+  test_frontend:
+    # Browser for e2e tests
+    browser: "chromium"  # chromium, firefox, webkit
+
+    # Coverage threshold
+    coverage_threshold: 70
+
+  orchestrator:
+    # Maximum fix iterations before human intervention
+    max_fix_iterations: 5
+
+    # Auto-merge when complete (requires all checks pass)
+    auto_merge: false
+
+    # Require human approval at checkpoints
+    require_approval:
+      - plan  # Approve spec before building
+      # - review  # Approve before merging
+
+# ============================================================================
+# SKILLS CONFIGURATION
+# ============================================================================
+
+skills:
+  git_ops:
+    # Commit message format
+    commit_format: "conventional"  # conventional, simple, detailed
+
+    # Auto-push after commit
+    auto_push: false
+
+  package_mgr:
+    # Preferred package manager (auto-detected if not set)
+    # preferred: npm  # npm, yarn, pnpm, pip, poetry, cargo
+
+    # Auto-update on install
+    auto_update: false
+
+# ============================================================================
+# WORKFLOW SETTINGS
+# ============================================================================
+
+workflows:
+  # Default workflow for /orchestrator
+  default: "feature"
+
+  # Workflow-specific settings
+  feature:
+    require_spec_approval: true
+    require_review_approval: false
+
+  bugfix:
+    require_regression_test: true
+    auto_merge: true
+
+  security:
+    require_human_review: true
+    block_on_critical: true
+
+# ============================================================================
+# METRICS & LOGGING
+# ============================================================================
+
+metrics:
+  # Enable metrics collection
+  enabled: true
+
+  # Retention period (days)
+  retention_days: 90
+
+  # Export format
+  export_format: "json"  # json, prometheus, csv
+
+logging:
+  # Log level
+  level: "info"  # debug, info, warn, error
+
+  # Log file location (relative to project root)
+  file: ".claude/logs/agent.log"
+
+  # Log agent reasoning (useful for debugging)
+  log_reasoning: false
+
+# ============================================================================
+# AGENT BEHAVIOR
+# ============================================================================
+
+agent:
+  # Confirmation prompts
+  confirm_destructive: true  # Confirm before rm, git reset, etc.
+  confirm_external: true     # Confirm before API calls, installs
+
+  # Timeout settings (seconds)
+  timeouts:
+    command: 300     # Single command timeout
+    workflow: 1800   # Full workflow timeout
+
+  # Retry settings
+  retries:
+    max_attempts: 3
+    backoff: "exponential"  # linear, exponential, fixed
+
+# ============================================================================
+# PROJECT-SPECIFIC
+# ============================================================================
+
+# Add your own custom settings here
+# These can be referenced in custom commands
+
+custom:
+  # Example: deployment targets
+  # deploy_targets:
+  #   staging: "https://staging.example.com"
+  #   production: "https://example.com"
+
+  # Example: team members for assignments
+  # team:
+  #   - name: "Alice"
+  #     github: "alice"
+  #   - name: "Bob"
+  #     github: "bob"
