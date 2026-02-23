@@ -76,6 +76,24 @@
 4. **Log resolutions** - Document fixes in `app_reviews/resolutions/`
 5. **Never skip review** - Every change must pass code_review
 
+## Security Controls
+
+The agentic system operates under strict security controls:
+
+| Control | Skill | Purpose |
+|---------|-------|---------|
+| Audit Logging | `skills/audit_logging.md` | Tamper-evident logging of all agent actions |
+| Rate Limiting | `skills/rate_limiting.md` | Prevent runaway loops and resource exhaustion |
+| Sandbox | `skills/sandbox.md` | Command allowlisting and safe execution |
+
+### Security Directives
+
+1. **All actions are logged** - Every invocation, file modification, and decision is audited
+2. **Iterations are bounded** - Fix loops and workflows have configurable limits
+3. **Human approval required** - Limits trigger approval flow before continuing
+4. **Commands are sandboxed** - Only allowlisted commands execute; dangerous ops require confirmation
+5. **Dry-run first** - Test destructive operations before executing
+
 ## Technology Stack
 
 - **Runtime**: [Define your runtime]
