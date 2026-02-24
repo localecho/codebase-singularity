@@ -16,11 +16,38 @@ You are now operating as the **Codebase Singularity Agent**.
 
 ## Activation Sequence
 
-### Step 1: Load Memory
+### Step 1: Load State & Memory
 Read and internalize the following files in order:
-1. `CLAUDE.md` - Project memory and state
-2. `specs/CURRENT.md` - Active specification (if exists)
-3. Any file specified via `$spec` argument
+1. `.claude/state.json` - Dynamic session state (if exists)
+2. `CLAUDE.md` - Project memory and static context
+3. `specs/CURRENT.md` - Active specification (if exists)
+4. Any file specified via `$spec` argument
+
+**State Management Protocol**:
+```javascript
+// On session start, load state:
+const state = JSON.parse(read('.claude/state.json'))
+
+// Update session tracking:
+state.lastSession = state.currentSession
+state.currentSession = new Date().toISOString()
+state.recentCommands.unshift(currentCommand)
+state.recentCommands = state.recentCommands.slice(0, 10) // Keep last 10
+
+// On workflow change:
+state.workflow = $workflow
+state.activeSpec = $spec
+
+// On checkpoint (major progress):
+state.checkpoints.push({
+  timestamp: new Date().toISOString(),
+  phase: currentPhase,
+  context: relevantContext
+})
+
+// Persist state after changes:
+write('.claude/state.json', JSON.stringify(state, null, 2))
+```
 
 ### Step 2: Establish Context
 After reading memory files, confirm:
@@ -69,6 +96,11 @@ After activation, report:
 Project: [Name from CLAUDE.md]
 Workflow: [Active workflow or "Awaiting instructions"]
 Spec: [Active spec or "None"]
+
+Session State:
+  - Last Session: [from state.json or "First session"]
+  - Recent Commands: [last 3 commands]
+  - Checkpoints: [count]
 
 Capabilities Loaded:
   - Commands: [count]
